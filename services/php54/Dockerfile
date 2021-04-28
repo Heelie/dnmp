@@ -20,9 +20,12 @@ RUN chmod +x install.sh \
 
 # Install composer and change it's cache home
 RUN curl -o /usr/bin/composer https://mirrors.aliyun.com/composer/composer.phar \
-    && chmod +x /usr/bin/composer
+    && chmod +x /usr/bin/composer \
+    && /usr/bin/composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 ENV COMPOSER_HOME=/tmp/composer
 
+# Install git
+RUN apk --no-cache add bash git openssh
 
 # php image's www-data user uid & gid are 82, change them to 1000 (primary user)
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
